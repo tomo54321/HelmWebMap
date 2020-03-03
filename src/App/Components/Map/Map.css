@@ -1,0 +1,25 @@
+.mapZoomControl{
+    top:75px!important
+}
+
+.mapRotateControl{
+    top:140px!important;
+}
+
+.mapScale{
+  bottom:40px!important;
+}
+
+@media screen and (min-width:600px){
+  .mapZoomControl{
+      top:10px!important
+  }
+
+  .mapRotateControl{
+      top: 80px!important;
+  }
+
+  .mapScale{
+    bottom:30px!important;
+  }
+}

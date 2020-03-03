@@ -1,0 +1,23 @@
+#app .container .search-bar{
+  display:block;
+  margin:auto;
+  width: 95%;
+  background: rgba(255, 255, 255, .9);
+  border: 0;
+  padding: 10px;
+  font-family: inherit;
+  border-radius: 5px;
+  transition: 250ms ease background;
+}
+
+#app .container .search-bar:focus{
+  outline:0;
+  background: #fff;
+}
+
+@media screen and (min-width:600px){
+  #app .container .search-bar{
+    width:500px;
+    margin:0;
+  }
+}
