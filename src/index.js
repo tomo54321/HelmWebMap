@@ -24,7 +24,7 @@ const store = createStore(allReducers, {
     user: {name:"", accessToken:""},
     place: {query:"", id:0},
     alert:{ show:false },
-    mapSettings: { zoom:[10], centerCoordinate:[1.605595, 52.596973] }
+    mapSettings: { zoom:[10], centerCoordinate:[1.605595, 52.596973], markers:[], routeLineCoords:[] }
 })
 
 const Application = () =>{

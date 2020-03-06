@@ -36,6 +36,9 @@ class SearchResults extends React.Component{
   }
   componentWillUnmount(){
     this.mounted=false;
+    this.props.onUpdateMap({
+      markers:[]
+    })
   }
   setQuery(cb){
     const query = queryString.parse(this.props.location.search);
@@ -61,6 +64,26 @@ class SearchResults extends React.Component{
         loading:false,
         results: data.payload
       })
+
+      const mkrs = [];
+      let totalLat = 0;
+      let totalLng = 0;
+
+      data.payload.map((v, i)=>{
+        totalLat += v.latitude;
+        totalLng += v.longitude;
+
+        mkrs.push([v.longitude, v.latitude])
+      })
+      totalLat = totalLat / data.payload.length;
+      totalLng = totalLng / data.payload.length;
+
+      this.props.onUpdateMap({
+        markers:mkrs,
+        centerCoordinate: [totalLng, totalLat],
+        zoom: [10]
+      })
+
     })
     .catch(ex=>{
       this.props.onOpenAlert({
@@ -83,7 +106,7 @@ class SearchResults extends React.Component{
 
   render(){
     return(
-      <div className="search-results-list shadow-map-bottom">
+      <div className="window search-results-list shadow-map-bottom">
         {this.state.loading?<Spinner />: <SearchList list={this.state.results} onResultClick={this.onResultClick}/>
         }
       </div>

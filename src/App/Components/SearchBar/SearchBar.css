@@ -1,22 +1,51 @@
-#app .container .search-bar{
+#app .container .search-form{
   display:block;
   margin:auto;
   width: 95%;
   background: rgba(255, 255, 255, .9);
   border: 0;
-  padding: 10px;
   font-family: inherit;
   border-radius: 5px;
+  display:flex;
   transition: 250ms ease background;
 }
 
-#app .container .search-bar:focus{
+#app .container .search-form .search-bar{
+  flex-grow: 1;
+  border:0;
+  background:transparent;
+  font-family: inherit;
+  padding:10px;
+}
+#app .container .search-form .search-bar:focus{
+  outline:0;
+}
+
+#app .container .search-form:focus-within{
   outline:0;
   background: #fff;
 }
 
+#app .container .search-form .search-button{
+  border:0;
+  background: rgba(255,255,255,0);
+  padding:0 10px;
+  cursor: pointer;
+}
+
+#app .container .search-form .search-button:focus{
+  outline:0;
+}
+
+#app .container .window.quick-find{
+  padding:10px;
+}
+#app .container .window.quick-find .title{
+  font-weight: bold;
+}
+
 @media screen and (min-width:600px){
-  #app .container .search-bar{
+  #app .container .search-form{
     width:500px;
     margin:0;
   }

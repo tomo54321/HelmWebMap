@@ -2,29 +2,59 @@ import React from 'react';
 import ReactMapboxGl, {
   ScaleControl,
   ZoomControl,
-  RotationControl
+  RotationControl,
+
+  Layer,
+  Feature
 } from "react-mapbox-gl";
+
+import {GeolocateControl} from 'mapbox-gl';
 
 import './Map.css';
 
 import {connect} from 'react-redux';
+import markerUrl from '../../../Images/map-pin.png'
 
 const Map = ReactMapboxGl({
-  accessToken: "pk.eyJ1IjoidG9tcjIwMTgiLCJhIjoiY2p1dXgwNzh2MDl1MTQ0bXV3MWkwbGJxYyJ9.wwaKPOWhupTpGV7WO64yLA"
+  accessToken: "pk.eyJ1IjoidG9tbzU0MzIxIiwiYSI6ImNqeDduY3QxMTA4aWMzdG52OGU0eXZxbjMifQ.t_8wOAKqfPvBx3BPK1Yliw"
 });
 
 class MapContainer extends React.Component{
+
+  onMapLoad(map){
+    map.addControl(new GeolocateControl());
+  }
+
   render(){
+
+    const mapMarkers = this.props.map.markers.map((v, i)=>{
+      return(
+        <Feature key={"markers_"+i} coordinates={v} />
+      )
+    })
+
     return(
       <Map
-      style="mapbox://styles/mapbox/streets-v11"
+      style="mapbox://styles/tomo54321/ck7g9h0g03g8j1ikij2wkb0du/draft"
       center={this.props.map.centerCoordinate}
       zoom={this.props.map.zoom}
+      onStyleLoad={this.onMapLoad}
       >
         <ZoomControl className="mapZoomControl" />
         <RotationControl className="mapRotateControl" />
         <ScaleControl className="mapScale"/>
         {this.props.children}
+        <Layer type="symbol" id="map_markers" layout={{ 'icon-image': "map-pin" }}>
+          {mapMarkers}
+        </Layer>
+
+        <Layer
+        type="line"
+        layout={{ 'line-cap':'round', 'line-join':'round' }}
+        paint={{ 'line-color' : '#3066BE', 'line-width' : 5 }}
+        id="map_route_line">
+          <Feature coordinates={this.props.map.routeLineCoords} />
+        </Layer>
       </Map>
     )
   }

@@ -9,6 +9,8 @@ import Alert from './Components/Alert/Alert'
 import { Switch, Route } from "react-router-dom";
 
 import SearchResults from './Screens/SearchResults/SearchResults.js'
+import Place from './Screens/Place/Place.js'
+import Directions from './Screens/Directions/Directions.js'
 
 import './App.css';
 
@@ -23,6 +25,12 @@ class App extends React.Component{
           <Switch>
             <Route exact path="/search">
               <SearchResults />
+            </Route>
+            <Route exact path="/place/:id">
+              <Place />
+            </Route>
+            <Route exact path="/directions">
+              <Directions />
             </Route>
           </Switch>
         </div>

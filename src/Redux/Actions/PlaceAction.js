@@ -3,7 +3,7 @@ export function updatePlace(place){
     return{
         type: UPDATE_PLACE,
         payload:{
-            place
+            data: place
         }
     }
 }

@@ -1,0 +1,89 @@
+.pb{
+  padding:10px;
+}
+
+.pb .title{
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+}
+
+.pb .type{
+  display:block;
+  color:#afafaf;
+}
+
+.pb .btn.btn-direction{
+  display:block;
+  width:75%;
+  margin:10px auto;
+  border:0;
+  font-family: inherit;
+  padding:10px 0;
+  border-radius: 5px;
+  background: #3E92CC;
+  color:#fff;
+  cursor: pointer;
+  transition: 250ms ease background;
+}
+.pb .btn.btn-direction:hover{
+  background: #2b638a
+}
+.pb .btn.btn-direction:focus{
+  outline:0;
+}
+
+.pb .section{
+  margin:30px 0;
+}
+
+.pb .section p{
+  margin:0;
+  margin-top:5px;
+}
+
+.pb .flex{
+  margin-top:15px;
+  justify-content: space-around;
+}
+
+.pb .nearby-mooring-btn{
+  background: transparent;
+  border:0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.pb .nearby-mooring-btn:focus{
+  outline:0;
+}
+
+.pb .nearby-mooring-btn .roundedBtn{
+  background: #3E92CC;
+  height:50px;
+  width:50px;
+  border-radius:50px;
+  margin:auto;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  color:#fff;
+}
+.pb .nearby-mooring-btn .name{
+  display: block;
+  margin-top:5px;
+}
+.pb .nearby-mooring-btn .dist{
+  color:#afafaf;
+}
+
+.pb table{
+  min-width:45%;
+}
+.pb table tr td, .pb table tr th{
+  padding:5px 0;
+}
+.pb table th{
+  text-align: left;
+  font-weight: normal;
+}
