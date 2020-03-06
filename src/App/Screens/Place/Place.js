@@ -79,6 +79,35 @@ const PlaceBody = (props) =>{
         </Section>
       :null}
 
+      {props.place.category.name === "mooring"?
+      <Section title="Details">
+        <table className="table">
+          <tbody>
+            <tr>
+              <th>Type</th>
+              <td>{props.place.data.data.type}</td>
+            </tr>
+            <tr>
+              <th>Allowed Mooring</th>
+              <td>{props.place.data.data.how}</td>
+            </tr>
+            <tr>
+              <th>Length</th>
+              <td>{props.place.data.data.length} metres</td>
+            </tr>
+            <tr>
+              <th>Approx # of boats</th>
+              <td>{props.place.data.data.approx}</td>
+            </tr>
+            <tr>
+              <th>Price</th>
+              <td>&pound;{props.place.data.data.price.toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </Section>
+      :null}
+
     </div>
   )
 };

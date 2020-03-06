@@ -21,7 +21,7 @@ const allReducers = combineReducers({
     mapSettings:mapReducer
 })
 const store = createStore(allReducers, {
-    user: {name:"", accessToken:""},
+    user: {name:"", accessToken:"", location:null},
     place: {query:"", id:0},
     alert:{ show:false },
     mapSettings: { zoom:[10], centerCoordinate:[1.605595, 52.596973], markers:[], routeLineCoords:[] }
@@ -42,4 +42,4 @@ ReactDOM.render(<Application />, document.getElementById('app'));
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();
