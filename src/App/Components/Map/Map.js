@@ -13,7 +13,6 @@ import {GeolocateControl} from 'mapbox-gl';
 import './Map.css';
 
 import {connect} from 'react-redux';
-import markerUrl from '../../../Images/map-pin.png'
 
 const Map = ReactMapboxGl({
   accessToken: "pk.eyJ1IjoidG9tbzU0MzIxIiwiYSI6ImNqeDduY3QxMTA4aWMzdG52OGU0eXZxbjMifQ.t_8wOAKqfPvBx3BPK1Yliw"
@@ -21,8 +20,25 @@ const Map = ReactMapboxGl({
 
 class MapContainer extends React.Component{
 
+  constructor(props){
+    super(props);
+    this.onMapLoad = this.onMapLoad.bind(this);
+    this.handleIncomingLocation = this.handleIncomingLocation.bind(this);
+  }
+
   onMapLoad(map){
-    map.addControl(new GeolocateControl());
+
+    let locator = new GeolocateControl({
+      trackUserLocation:true,
+    });
+    locator.on("geolocate", this.handleIncomingLocation);
+    map.addControl(locator);
+  }
+
+  handleIncomingLocation(data){
+    this.props.onUpdateUser({
+      location:data
+    })
   }
 
   render(){

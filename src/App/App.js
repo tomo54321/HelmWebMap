@@ -2,10 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {closeAlert} from '../Redux/Actions/AlertAction'
+import {updateUser} from '../Redux/Actions/UserAction'
 
 import Map from './Components/Map/Map'
 import SearchBar from './Components/SearchBar/SearchBar'
 import Alert from './Components/Alert/Alert'
+import Speedometer from './Components/Speedometer/Speedometer';
 import { Switch, Route } from "react-router-dom";
 
 import SearchResults from './Screens/SearchResults/SearchResults.js'
@@ -19,7 +21,8 @@ class App extends React.Component{
   render(){
     return(
       <div className="container">
-        <Map />
+        <Map onUpdateUser={this.props.onUpdateUser}/>
+        <Speedometer />
         <div className="viewer">
           <SearchBar />
           <Switch>
@@ -50,7 +53,8 @@ const mapStateToProps = (state) =>({
 
 const mapActionsToProps = (dispatch, props) => {
     return bindActionCreators({
-        onCloseAlert: closeAlert
+        onCloseAlert: closeAlert,
+        onUpdateUser: updateUser
     }, dispatch);
 };
 

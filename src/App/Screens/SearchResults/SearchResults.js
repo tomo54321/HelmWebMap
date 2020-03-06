@@ -69,7 +69,7 @@ class SearchResults extends React.Component{
       let totalLat = 0;
       let totalLng = 0;
 
-      data.payload.map((v, i)=>{
+      data.payload.forEach((v, i)=>{
         totalLat += v.latitude;
         totalLng += v.longitude;
 

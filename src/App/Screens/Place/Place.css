@@ -81,9 +81,9 @@
   min-width:45%;
 }
 .pb table tr td, .pb table tr th{
-  padding:5px 0;
+  padding:5px;
 }
 .pb table th{
   text-align: left;
-  font-weight: normal;
+  opacity:.8
 }
