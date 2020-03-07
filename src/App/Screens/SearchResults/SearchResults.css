@@ -26,3 +26,14 @@
 .search-results-list .result-row .place_type{
   color:#afafaf;
 }
+
+.search-results-list .no-res-message{
+  width:100%;
+  text-align: center;
+  height:100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:#afafaf;
+}

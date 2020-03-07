@@ -64,7 +64,9 @@ class SearchResults extends React.Component{
         loading:false,
         results: data.payload
       })
-
+      
+      if(data.payload.length === 0){ return }
+      
       const mkrs = [];
       let totalLat = 0;
       let totalLng = 0;

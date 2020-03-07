@@ -17,7 +17,9 @@ class SearchList extends React.Component{
 
     return(
       <div className="list-container">
-        {results}
+        {this.props.list.length === 0? 
+        <span className="no-res-message">No results found</span>
+        : results}
       </div>
     )
   }
