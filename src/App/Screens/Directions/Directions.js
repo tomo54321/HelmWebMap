@@ -218,7 +218,7 @@ class Directions extends React.Component{
         loading:true,
       },()=>{
 
-        const url = "https://api.map.onthecut.net/route/v1/driving/";
+        const url = "https://route.helmapp.net/route/v1/driving/";
         let coords = this.state.fromPlace.lng+","+this.state.fromPlace.lat+";";
         coords += this.state.toPlace.lng+","+this.state.toPlace.lat;
         const params = "?overview=false&alternatives=true&steps=true&hints=;";
