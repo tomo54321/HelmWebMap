@@ -13,6 +13,9 @@ import {GeolocateControl} from 'mapbox-gl';
 import './Map.css';
 
 import {connect} from 'react-redux';
+import MapHazards, { hazardFetcher } from '../MapHazards/MapHazards';
+import { bindActionCreators } from 'redux';
+import { updateHazards } from '../../../Redux/Actions/MapAction';
 
 const Map = ReactMapboxGl({
   accessToken: "pk.eyJ1IjoidG9tbzU0MzIxIiwiYSI6ImNqeDduY3QxMTA4aWMzdG52OGU0eXZxbjMifQ.t_8wOAKqfPvBx3BPK1Yliw"
@@ -24,6 +27,16 @@ class MapContainer extends React.Component{
     super(props);
     this.onMapLoad = this.onMapLoad.bind(this);
     this.handleIncomingLocation = this.handleIncomingLocation.bind(this);
+
+    this.onHazardsNeedUpdating = this.onHazardsNeedUpdating.bind(this);
+  }
+
+  componentDidMount(){
+    // Load initial 20 hazards.
+    hazardFetcher().then(res => {
+      this.props.onUpdateHazards(res.data.payload);
+    });
+
   }
 
   onMapLoad(map){
@@ -41,6 +54,17 @@ class MapContainer extends React.Component{
     })
   }
 
+  onHazardsNeedUpdating(_, event){
+    
+    // Load hazards in viewport
+
+    hazardFetcher(event.target.getBounds()).then(res => {
+      this.props.onUpdateHazards(res.data.payload);
+    });
+
+  }
+
+
   render(){
 
     const mapMarkers = this.props.map.markers.map((v, i)=>{
@@ -55,6 +79,8 @@ class MapContainer extends React.Component{
       center={this.props.map.centerCoordinate}
       zoom={this.props.map.zoom}
       onStyleLoad={this.onMapLoad}
+      onZoomEnd={this.onHazardsNeedUpdating}
+      onDragEnd={this.onHazardsNeedUpdating}
       >
         <ZoomControl className="mapZoomControl" />
         <RotationControl className="mapRotateControl" />
@@ -63,6 +89,9 @@ class MapContainer extends React.Component{
         <Layer type="symbol" id="map_markers" layout={{ 'icon-image': "map-pin" }}>
           {mapMarkers}
         </Layer>
+
+        {/* The Hazards Gotten from the server. */}
+        <MapHazards />
 
         <Layer
         type="line"
@@ -79,4 +108,9 @@ class MapContainer extends React.Component{
 const mapStateToProps = (state) =>({
   map:state.mapSettings
 });
-export default connect(mapStateToProps)(MapContainer);
+const mapActionsToProps = (dispatch, props) => {
+  return bindActionCreators({
+    onUpdateHazards: updateHazards
+  }, dispatch);
+};
+export default connect(mapStateToProps, mapActionsToProps)(MapContainer);

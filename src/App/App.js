@@ -15,6 +15,7 @@ import Place from './Screens/Place/Place.js'
 import Directions from './Screens/Directions/Directions.js'
 
 import './App.css';
+import Hazard from './Screens/Hazard/Hazard';
 
 class App extends React.Component{
 
@@ -31,6 +32,9 @@ class App extends React.Component{
             </Route>
             <Route exact path="/place/:id">
               <Place />
+            </Route>
+            <Route exact path="/hazard/:id">
+              <Hazard />
             </Route>
             <Route exact path="/directions">
               <Directions />

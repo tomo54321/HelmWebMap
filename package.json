@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "mapbox-gl": "^1.8.1",
+    "moment": "^2.25.3",
     "query-string": "^6.11.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",

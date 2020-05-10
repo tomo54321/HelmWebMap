@@ -14,6 +14,7 @@ import alertReducer from './Redux/Reducers/AlertReducer';
 import mapReducer from './Redux/Reducers/MapReducer';
 import { combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
+
 const allReducers = combineReducers({
     user:userReducer,
     alert:alertReducer,
@@ -24,7 +25,7 @@ const store = createStore(allReducers, {
     user: {name:"", accessToken:"", location:null},
     place: {query:"", id:0},
     alert:{ show:false },
-    mapSettings: { zoom:[10], centerCoordinate:[1.605595, 52.596973], markers:[], routeLineCoords:[] }
+    mapSettings: { zoom:[10], centerCoordinate:[1.605595, 52.596973], markers:[], routeLineCoords:[], hazards:[] }
 })
 
 const Application = () =>{

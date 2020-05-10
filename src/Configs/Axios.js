@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const baseURL = ((!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? "http://currentproject.test" : "https://helmapp.net") + "/api/v1/"
+
 const instance = axios.create({
-  baseURL:"https://helmapp.net/api/v1/",
+  baseURL,
   timeout:5000
 })
 
