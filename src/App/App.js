@@ -12,7 +12,10 @@ import { Switch, Route } from "react-router-dom";
 
 import SearchResults from './Screens/SearchResults/SearchResults.js'
 import Place from './Screens/Place/Place.js'
-import Directions from './Screens/Directions/Directions.js'
+import Directions from './Screens/Directions/Directions.js';
+
+import MapPois from './Components/MapPois/MapPois';
+import MapHazards from './Components/MapHazards/MapHazards'
 
 import './App.css';
 import Hazard from './Screens/Hazard/Hazard';
@@ -22,7 +25,16 @@ class App extends React.Component{
   render(){
     return(
       <div className="container">
-        <Map onUpdateUser={this.props.onUpdateUser}/>
+        <Map onUpdateUser={this.props.onUpdateUser}>
+
+          {/* Map Points of interest, includes Moorings & Bridges */}
+          <MapPois />
+
+          {/* The Hazards Gotten from the server. */}
+          <MapHazards />
+        </Map>
+
+
         <Speedometer />
         <div className="viewer">
           <SearchBar />

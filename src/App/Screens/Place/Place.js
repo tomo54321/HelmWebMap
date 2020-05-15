@@ -1,5 +1,4 @@
 import React from 'react';
-import queryString from 'query-string';
 import Spinner from '../../Components/Spinner/Spinner'
 import Section from '../../Components/Section/Section'
 
@@ -107,6 +106,14 @@ const PlaceBody = (props) =>{
         </table>
       </Section>
       :null}
+
+      {
+        props.place.data.data !== undefined && props.place.data.data.about !== undefined?
+        <Section title="About">
+          {props.place.data.data.about}
+        </Section>
+        :null
+      }
 
     </div>
   )
