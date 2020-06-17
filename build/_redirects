@@ -1,0 +1,5 @@
+/ /index.html 200
+/search /index.html 200
+/directions /index.html 200
+/place /index.html 200
+/place/* /index.html 200
