@@ -108,7 +108,7 @@ const PlaceBody = (props) =>{
       :null}
 
       {
-        props.place.data.data !== undefined && props.place.data.data.about !== undefined?
+        props.place.data !== null && props.place.data.data !== undefined && props.place.data.data.about !== undefined?
         <Section title="About">
           {props.place.data.data.about}
         </Section>
