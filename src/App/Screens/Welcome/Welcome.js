@@ -13,7 +13,7 @@ import './Welcome.css';
 class Welcome extends React.Component {
 
     componentDidMount() {
-        console.log(this.props.userLocation);
+        // console.log(this.props.userLocation);
     }
     userLocationView() {
         if (this.props.userLocation === null) { return null }
@@ -33,7 +33,7 @@ class Welcome extends React.Component {
         return (
             <div className="window welcome-window shadow-map-bottom">
                 <h3>Good {now.format("a") === "pm" ? "Afternoon" : "Morning"}</h3>
-                <p>Thanks for giving HelmApp a try! The application is currently in <b>beta</b> so please give us feedback.</p>
+                <p>Thanks for giving Helm a try! The application is currently in <b>beta</b> so please give us feedback.</p>
                 <Section title="Get Started">
                     <p>{tips[Math.floor(Math.random() * tips.length)]}</p>
                 </Section>
