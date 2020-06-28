@@ -204,8 +204,11 @@ class Directions extends React.Component{
 
                 c.map((v, i) => {
                     coords = [...coords, [v[1], v[0]]];
+                    return null;
                 })
+                return null;
             })
+            return null;
 
         })
     return coords;

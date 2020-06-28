@@ -6,7 +6,6 @@ import ReactMapboxGl, {
 
   Layer,
   Feature,
-  Source, 
 } from "react-mapbox-gl";
 
 import { GeolocateControl } from 'mapbox-gl';
@@ -14,7 +13,7 @@ import { GeolocateControl } from 'mapbox-gl';
 import './Map.css';
 
 import { connect } from 'react-redux';
-import MapHazards, { hazardFetcher } from '../MapHazards/MapHazards';
+import { hazardFetcher } from '../MapHazards/MapHazards';
 import { bindActionCreators } from 'redux';
 import { updateHazards } from '../../../Redux/Actions/MapAction';
 
@@ -74,8 +73,8 @@ class MapContainer extends React.Component {
     })
 
     return (
-      <Map
-        style="mapbox://styles/tomo54321/ck7g9h0g03g8j1ikij2wkb0du/draft"
+      // eslint-disable-next-line
+      <Map style={"mapbox://styles/tomo54321/ck7g9h0g03g8j1ikij2wkb0du"}
         center={this.props.map.centerCoordinate}
         zoom={this.props.map.zoom}
         onStyleLoad={this.onMapLoad}

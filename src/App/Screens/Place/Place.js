@@ -107,7 +107,7 @@ class PlaceBody extends React.Component {
               {props.place.website_address !== null ?
                 <tr>
                   <th>Website</th>
-                  <td><a href={props.place.website_address} target="_blank" rel="noreferer">{props.place.website_address}</a></td>
+                  <td><a href={props.place.website_address} target="_blank" rel="noopener noreferrer">{props.place.website_address}</a></td>
                 </tr>
                 : null
               }
