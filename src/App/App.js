@@ -13,9 +13,10 @@ import { Switch, Route } from "react-router-dom";
 import SearchResults from './Screens/SearchResults/SearchResults.js'
 import Place from './Screens/Place/Place.js'
 import Directions from './Screens/Directions/Directions.js';
+import Welcome from './Screens/Welcome/Welcome.js';
 
 import MapPois from './Components/MapPois/MapPois';
-import MapHazards from './Components/MapHazards/MapHazards'
+import MapHazards from './Components/MapHazards/MapHazards';
 
 import './App.css';
 import Hazard from './Screens/Hazard/Hazard';
@@ -39,6 +40,9 @@ class App extends React.Component{
         <div className="viewer">
           <SearchBar />
           <Switch>
+            <Route exact path="/">
+              <Welcome />
+            </Route>
             <Route exact path="/search">
               <SearchResults />
             </Route>

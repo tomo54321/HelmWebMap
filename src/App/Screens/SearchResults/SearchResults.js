@@ -101,7 +101,9 @@ class SearchResults extends React.Component{
     this.props.onUpdateMap({
       zoom:[16],
       centerCoordinate:[v.longitude, v.latitude]
-    })
+    });
+
+    window.place = v;
 
     this.props.history.push("/place/"+v.id);
   }

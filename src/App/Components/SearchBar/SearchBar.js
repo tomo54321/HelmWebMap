@@ -19,13 +19,6 @@ class SearchBar extends React.Component{
   }
 
   onSubmit(e){
-    if(this.props.location.pathname !== "/" && this.props.location.pathname !== "/search"){
-      this.props.history.push("/");
-      this.setState({query:""})
-      e.preventDefault()
-      return;
-    }
-
     const query = queryString.stringify( {q:this.state.query} );
     let url = "/search?"+query;
     this.props.history.push(url);
