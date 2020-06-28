@@ -28,7 +28,7 @@ class Welcome extends React.Component {
         const tips = [
             "Try searching for your favourite place on the Norfolk Broads...",
             "Search a What 3 Words address '///canine.squish.factually'",
-            "Click the locate me button to the left to view your location"
+            "Click the locate me button to view your location"
         ];
         return (
             <div className="window welcome-window shadow-map-bottom">
