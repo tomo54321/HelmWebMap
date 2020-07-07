@@ -5,8 +5,6 @@ import { bindActionCreators } from 'redux';
 import {updateAlert} from '../../../Redux/Actions/AlertAction'
 import {updateMap} from '../../../Redux/Actions/MapAction'
 
-import './Directions.css'
-
 import Spinner from '../../Components/Spinner/Spinner'
 
 import {withRouter} from 'react-router-dom';
@@ -16,6 +14,7 @@ import API from '../../../Configs/Axios';
 import axios from 'axios';
 
 import SearchList from '../../Components/SearchList/SearchList'
+import Section from '../../Components/Section/Section';
 
 const HourToTime = (decimalTime) => {
     decimalTime = decimalTime * 60 * 60;
@@ -76,6 +75,7 @@ class Directions extends React.Component{
     this.onTextChange = this.onTextChange.bind(this);
     this.checkPossibleLocations = this.checkPossibleLocations.bind(this);
     this.onSearchClicked = this.onSearchClicked.bind(this);
+    this.setMyLocation = this.setMyLocation.bind(this);
     this.onResultClick = this.onResultClick.bind(this);
     this.doGetDirections = this.doGetDirections.bind(this);
     this.getPolyline = this.getPolyline.bind(this);
@@ -195,6 +195,22 @@ class Directions extends React.Component{
     }
   }
 
+  setMyLocation(f){
+    if(this.props.userLocation === null){ return; }
+    var state = {
+      resultList: []
+    };
+    if(this.state.searchFor===1){
+      state["fromq"] = this.props.userLocation.coords.latitude + ", " + this.props.userLocation.coords.longitude;
+      state["fromPlace"] = {lat:this.props.userLocation.coords.latitude, lng:this.props.userLocation.coords.longitude};
+    }
+    if(this.state.searchFor===2){
+      state["toq"] = this.props.userLocation.coords.latitude + ", " + this.props.userLocation.coords.longitude;
+      state["toPlace"] = {lat:this.props.userLocation.coords.latitude, lng:this.props.userLocation.coords.longitude};
+    }
+    this.setState(state, () => this.doGetDirections());
+  }
+
   getPolyline(legs){
     let coords = [];
         legs.map((item, key) => {
@@ -266,24 +282,28 @@ class Directions extends React.Component{
 
   render(){
     return(
-      <div className="window directions-overview shadow-map-bottom">
+      <div className="directions">
 
-        <div className="flex space-between px-4 py-2">
+        <div className="header">
           <span className="title">Directions</span>
-          <button className="close-button" onClick={()=>{this.props.history.push("/")}}><i className="material-icons">close</i></button>
         </div>
 
         {this.state.loading ?<Spinner /> :
         <>
-          <form method="GET" className="flex search-form mt-2" onSubmit={(e)=>{this.onSearchClicked(e, 1)}}>
-            <input type="text" className="search-bar" name="fromq" autoComplete="off" onChange={this.onTextChange} placeholder="Where From?" value={this.state.fromq}/>
-            <button className="search-button"><i className="material-icons">search</i></button>
-          </form>
-
-          <form method="GET" className="flex search-form mt-2" onSubmit={(e)=>{this.onSearchClicked(e, 2)}}>
-            <input type="text" className="search-bar" name="toq" autoComplete="off" onChange={this.onTextChange} placeholder="Where To?" value={this.state.toq}/>
-            <button className="search-button"><i className="material-icons">search</i></button>
-          </form>
+          <Section title="From">
+            <form method="GET" className="d-flex search-form" onSubmit={(e)=>{this.onSearchClicked(e, 1)}}>
+              <input type="text" className="search-bar" name="fromq" autoComplete="off" onChange={this.onTextChange} placeholder="Where From?" value={this.state.fromq}/>
+              {this.props.userLocation !== null ? <button className="search-button" type="button" onClick={() => this.setMyLocation(2)}><i className="material-icons">gps_fixed</i></button> : null }
+              <button className="search-button"><i className="material-icons">search</i></button>
+            </form>
+          </Section>
+          <Section title="To">
+            <form method="GET" className="d-flex search-form" onSubmit={(e)=>{this.onSearchClicked(e, 2)}}>
+              <input type="text" className="search-bar" name="toq" autoComplete="off" onChange={this.onTextChange} placeholder="Where To?" value={this.state.toq}/>
+              {this.props.userLocation !== null ? <button className="search-button" type="button" onClick={() => this.setMyLocation(1)}><i className="material-icons">gps_fixed</i></button> : null }
+              <button className="search-button"><i className="material-icons">search</i></button>
+            </form>
+          </Section>
         </>}
         {this.state.loading===false&&this.state.resultList.length > 0?<div className="search-results-list"> <SearchList list={this.state.resultList} onResultClick={this.onResultClick}/> </div>:null}
         {this.state.loading===false&&this.state.directionData!==null?<DirectionOverview selectedRoute={this.state.selectedRoute} data={this.state.directionData}/>:null}
@@ -294,7 +314,8 @@ class Directions extends React.Component{
 
 }
 const mapStateToProps = (state) =>({
-  place:state.place
+  place:state.place,
+  userLocation: state.user.location
 });
 const mapActionsToProps = (dispatch, props) => {
     return bindActionCreators({

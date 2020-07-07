@@ -80,10 +80,8 @@ class Hazard extends React.Component{
 
   render(){
     return(
-      <div className="window place-view shadow-map-bottom">
-        {this.state.loading?<Spinner />: <HazardBody data={this.state.hazard} />
-        }
-      </div>
+        this.state.loading?<Spinner />: <HazardBody data={this.state.hazard} />
+        
     )
   }
 
@@ -91,25 +89,25 @@ class Hazard extends React.Component{
 
 const HazardBody = (props) => (
   <div className="pb">
-    <span className="title">{props.data.hazard_type.name} Report</span>
+    <span className="title">{props.data.hazard_type.name}</span>
     <span className="type">{props.data.user.username}</span>
 
     <Section title="Details">
       <table>
         <tbody>
           <tr>
-            <th>First spotted at</th>
-            <td>{moment.utc(props.data.created_at).local().format("MMMM Do YYYY, h:mm a")}</td>
+            <th>Reported</th>
+            <td>{moment.utc(props.data.created_at).local().format("Do MMMM \\a\\t h:mma")}</td>
           </tr>
           <tr>
-            <th>Last spotted</th>
-            <td>{moment.utc(props.data.updated_at).local().format("MMMM Do YYYY, h:mm a")}</td>
+            <th>Last Update</th>
+            <td>{moment.utc(props.data.updated_at).local().fromNow()}</td>
           </tr>
         </tbody>
       </table>
     </Section>
 
-  { props.data.comment ? <Section title="Comment">{props.data.comment}</Section> : null } 
+    { props.data.comment ? <Section title="Comment">{props.data.comment}</Section> : <center><small className="muted">No further information was given</small></center> } 
 
   </div>
 );

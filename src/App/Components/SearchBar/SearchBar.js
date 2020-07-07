@@ -2,8 +2,6 @@ import React from 'react';
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 
-import './SearchBar.css';
-
 class SearchBar extends React.Component{
   constructor(props){
     super(props);
@@ -15,14 +13,55 @@ class SearchBar extends React.Component{
     }
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.addToPreviousSearches = this.addToPreviousSearches.bind(this);
     this.onTextChange = this.onTextChange.bind(this);
   }
 
   onSubmit(e){
+    if(this.props.location.pathname !== "/"){
+      this.setState({
+        query:""
+      })
+      this.props.history.push("/");
+      e.preventDefault()
+      return;
+    }
+
     const query = queryString.stringify( {q:this.state.query} );
     let url = "/search?"+query;
+
+    this.addToPreviousSearches();
+
     this.props.history.push(url);
     e.preventDefault()
+  }
+  addToPreviousSearches(){
+    let previous_searches = [];
+    if(window.localStorage.getItem("recent-searches") !== null){
+      try{
+        previous_searches = JSON.parse(window.localStorage.getItem("recent-searches"));
+      }catch(ex){
+        console.error("Invalid previous searches, resetting.")
+        previous_searches = [];
+      }
+    }
+
+    // Search already exists.
+    if(previous_searches.indexOf(this.state.query) !== -1){
+      return;
+    }
+    // If empty query.
+    if(this.state.query === ""){
+      return;
+    }
+
+    // If list is longer than 10
+    if(previous_searches.length > 10){
+      previous_searches.pop();
+    }
+
+    previous_searches.push(this.state.query);
+    window.localStorage.setItem("recent-searches", JSON.stringify(previous_searches));
   }
   onTextChange(e){
     if(this.props.location.pathname === "/search"){
@@ -35,11 +74,11 @@ class SearchBar extends React.Component{
   }
 
   render(){
-    if(this.props.location.pathname === "/directions"){return null;}
+    // if(this.props.location.pathname === "/directions"){return null;}
     return(
-        <form action="/search" method="GET" onSubmit={this.onSubmit} className="flex search-form shadow-map">
+        <form action="/search" method="GET" onSubmit={this.onSubmit} className="d-flex search-form">
           <input type="text" className="search-bar" name="query" autoComplete="off" placeholder="Search" value={this.state.query} onChange={this.onTextChange}/>
-          <button className="search-button"><i className="material-icons">{this.props.location.pathname !== "/" && this.props.location.pathname !== "/search" ?"close":"search"}</i></button>
+          <button className="search-button"><i className="material-icons">{this.props.location.pathname !== "/" ?"close":"search"}</i></button>
         </form>
     )
   }

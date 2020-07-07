@@ -1,4 +1,5 @@
 import React from 'react';
+import Section from '../Section/Section'
 
 class SearchList extends React.Component{
   capitalizeFirstLetter(string) {
@@ -8,19 +9,21 @@ class SearchList extends React.Component{
   render(){
     const results = this.props.list.map((v,i)=>{
       return(
-        <button key={i} className="result-row" onClick={()=>{this.props.onResultClick(v)}}>
-          <span className="place_name">{v.name}</span>
-          <span className="place_type">{this.capitalizeFirstLetter(v.category.name.replace("_", " "))}</span>
-        </button>
+        <li key={"search_result_" + i}>
+          <a href={"/place/" + v.id} onClick={(e) => {this.props.onResultClick(v);e.preventDefault();}}>
+            <span className="name">{v.name}</span>
+            <span className="type">{this.capitalizeFirstLetter(v.category.name.replace("_", " "))}</span>
+          </a>
+        </li>
       )
     })
 
     return(
-      <div className="list-container">
+      <Section title="Search Results">
         {this.props.list.length === 0? 
-        <span className="no-res-message">No results found</span>
-        : results}
-      </div>
+        <center><span className="d-block">No results found</span></center>
+        : <ul className="link-list">{results}</ul>}
+      </Section>
     )
   }
 

@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color:#272727;
 }
 
 *{
@@ -19,16 +20,4 @@ input{
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-
-#app .container{
-  position: absolute;
-  height:100%;
-  width: 100%;
-}
-
-.mapboxgl-map{
-  height:100%;
-  width: 100%;
 }

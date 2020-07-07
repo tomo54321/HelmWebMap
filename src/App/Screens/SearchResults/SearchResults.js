@@ -2,7 +2,6 @@ import React from 'react';
 import queryString from 'query-string';
 import Spinner from '../../Components/Spinner/Spinner'
 import SearchList from '../../Components/SearchList/SearchList'
-import './SearchResults.css'
 
 import API from '../../../Configs/Axios';
 
@@ -66,6 +65,12 @@ class SearchResults extends React.Component{
       })
       
       if(data.payload.length === 0){ return }
+
+      if(data.payload.length === 1 && data.payload[0].name === this.state.query){
+        this.onResultClick(data.payload[0]);
+        return;
+      }
+
       
       const mkrs = [];
       let totalLat = 0;
@@ -110,10 +115,7 @@ class SearchResults extends React.Component{
 
   render(){
     return(
-      <div className="window search-results-list shadow-map-bottom">
-        {this.state.loading?<Spinner />: <SearchList list={this.state.results} onResultClick={this.onResultClick}/>
-        }
-      </div>
+        this.state.loading?<Spinner />: <SearchList list={this.state.results} onResultClick={this.onResultClick}/>
     )
   }
 
