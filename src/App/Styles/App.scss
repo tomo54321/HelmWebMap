@@ -46,6 +46,10 @@ sans-serif;
   color:#afafaf;
 }
 
+.o-75{
+  opacity:0.75;
+}
+
 .btn{
   font-family: $font-family;
   background-color:#ebebeb;
@@ -95,3 +99,10 @@ Loader
     }
   }
   
+
+@media screen and (max-width:812px){
+  #app .container{
+    display:block;
+    padding-bottom:100px;
+  }
+}

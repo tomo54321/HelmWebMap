@@ -12,13 +12,15 @@ class SearchBar extends React.Component{
       query:qString.q ?? "",
     }
 
+    this.lastQuery = qString.q ?? "";
+
     this.onSubmit = this.onSubmit.bind(this);
     this.addToPreviousSearches = this.addToPreviousSearches.bind(this);
     this.onTextChange = this.onTextChange.bind(this);
   }
 
   onSubmit(e){
-    if(this.props.location.pathname !== "/"){
+    if((this.props.location.pathname !== "/" && this.state.query === this.lastQuery) || queryString.parse(this.props.location.search).q === ""){
       this.setState({
         query:""
       })
@@ -29,6 +31,7 @@ class SearchBar extends React.Component{
 
     const query = queryString.stringify( {q:this.state.query} );
     let url = "/search?"+query;
+    this.lastQuery = this.state.query;
 
     this.addToPreviousSearches();
 

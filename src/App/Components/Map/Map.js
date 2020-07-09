@@ -15,7 +15,7 @@ import './Map.css';
 import { connect } from 'react-redux';
 import { hazardFetcher } from '../MapHazards/MapHazards';
 import { bindActionCreators } from 'redux';
-import { updateHazards } from '../../../Redux/Actions/MapAction';
+import { updateHazards, updateMap } from '../../../Redux/Actions/MapAction';
 
 const Map = ReactMapboxGl({
   accessToken: "pk.eyJ1IjoidG9tbzU0MzIxIiwiYSI6ImNqeDduY3QxMTA4aWMzdG52OGU0eXZxbjMifQ.t_8wOAKqfPvBx3BPK1Yliw"
@@ -28,6 +28,7 @@ class MapContainer extends React.Component {
     this.onMapLoad = this.onMapLoad.bind(this);
     this.handleIncomingLocation = this.handleIncomingLocation.bind(this);
     this.onHazardsNeedUpdating = this.onHazardsNeedUpdating.bind(this);
+    this.onZoomEnd = this.onZoomEnd.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +48,14 @@ class MapContainer extends React.Component {
     map.addControl(locator);
   }
 
+  onZoomEnd(_, e){
+    this.onHazardsNeedUpdating(_, e);
+
+    this.props.onUpdateMap({
+      zoom: [e.target.getZoom()]
+    })
+  }
+
   handleIncomingLocation(data) {
     this.props.onUpdateUser({
       location: data
@@ -55,8 +64,14 @@ class MapContainer extends React.Component {
 
   onHazardsNeedUpdating(_, event) {
 
-    // Load hazards in viewport
+    // Update state center coord
+    const {lat, lng} = event.target.getCenter();
 
+    this.props.onUpdateMap({
+      centerCoordinate: [lng, lat]
+    })
+
+    // Load hazards in viewport
     hazardFetcher(event.target.getBounds()).then(res => {
       this.props.onUpdateHazards(res.data.payload);
     });
@@ -78,8 +93,8 @@ class MapContainer extends React.Component {
         center={this.props.map.centerCoordinate}
         zoom={this.props.map.zoom}
         onStyleLoad={this.onMapLoad}
-        onZoomEnd={this.onHazardsNeedUpdating}
         onDragEnd={this.onHazardsNeedUpdating}
+        onZoomEnd={this.onZoomEnd}
       >
         <ZoomControl className="mapZoomControl" />
         <RotationControl className="mapRotateControl" />
@@ -107,7 +122,8 @@ const mapStateToProps = (state) => ({
 });
 const mapActionsToProps = (dispatch, props) => {
   return bindActionCreators({
-    onUpdateHazards: updateHazards
+    onUpdateHazards: updateHazards,
+    onUpdateMap: updateMap
   }, dispatch);
 };
 export default connect(mapStateToProps, mapActionsToProps)(MapContainer);

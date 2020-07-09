@@ -16,6 +16,8 @@ import axios from 'axios';
 import SearchList from '../../Components/SearchList/SearchList'
 import Section from '../../Components/Section/Section';
 
+const osrmTextInstructions = require('osrm-text-instructions')('v5');
+
 const HourToTime = (decimalTime) => {
     decimalTime = decimalTime * 60 * 60;
     var hours = Math.floor((decimalTime / (60 * 60)));
@@ -37,15 +39,49 @@ const HourToTime = (decimalTime) => {
 }
 
 const DirectionOverview = (props) =>{
+
+  let instructions = [];
+  // Process instructions
+  props.data[ props.selectedRoute ].legs.forEach(function(leg) {
+    leg.steps.forEach(function(step) {
+      instructions.push({ 
+        detail: osrmTextInstructions.compile('en', step), 
+        location:  step.maneuver.location
+      });
+    });
+  });
+
+  // Helper to position on click
+  const updateMap = (loc) => {
+    props.onUpdateMap({
+      centerCoordinate: loc,
+      zoom: [17]
+    })
+  };
+
+  // Map elements
+  const directions = instructions.map((v, i) => {
+    return(
+      <li key={"direction_" + i}>
+      <a href="#direction" onClick={() => { updateMap(v.location) }}>
+        {v.detail}
+      </a>
+    </li>
+    )
+  });
+
   return(
-    <div className="route-details flex flex-between">
-      <div className="col flex-shink">
-        <span className="via">{props.data[ props.selectedRoute ].legs[0].summary}</span>
+    <div className="route">
+      <div className="route-details d-flex justify-between">
+        <div className="col shink">
+          <span className="via">{props.data[ props.selectedRoute ].legs[0].summary}</span>
+        </div>
+        <div className="col">
+          <span className="d-block distance">{((props.data[ props.selectedRoute ].distance / 1000)/1.609).toFixed(2)}mi</span>
+          <span className="o-75 duration">{HourToTime( ( (props.data[ props.selectedRoute ].distance / 1000) / 7.45) )}</span>
+        </div>
       </div>
-      <div className="col">
-        <span className="distance">{((props.data[ props.selectedRoute ].distance / 1000)/1.609).toFixed(2)} mi</span>
-        <span className="duration">{HourToTime( ( (props.data[ props.selectedRoute ].distance / 1000) / 7.45) )}</span>
-      </div>
+      <ul className="link-list">{directions}</ul>
     </div>
   )
 }
@@ -68,7 +104,6 @@ class Directions extends React.Component{
 
       selectedRoute:0,
       directionData:null,
-
     }
     this.mounted=false;
     this.gettingDirections=false;
@@ -263,7 +298,7 @@ class Directions extends React.Component{
 
           this.setState({
             loading:false,
-            directionData:data.routes
+            directionData:data.routes,
           })
 
         })
@@ -306,7 +341,7 @@ class Directions extends React.Component{
           </Section>
         </>}
         {this.state.loading===false&&this.state.resultList.length > 0?<div className="search-results-list"> <SearchList list={this.state.resultList} onResultClick={this.onResultClick}/> </div>:null}
-        {this.state.loading===false&&this.state.directionData!==null?<DirectionOverview selectedRoute={this.state.selectedRoute} data={this.state.directionData}/>:null}
+        {this.state.loading===false&&this.state.directionData!==null?<DirectionOverview onUpdateMap={this.props.onUpdateMap} selectedRoute={this.state.selectedRoute} data={this.state.directionData}/>:null}
 
       </div>
     )

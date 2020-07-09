@@ -8,26 +8,32 @@ import { withRouter, Link } from 'react-router-dom';
 import Section from '../../Components/Section/Section'
 
 class Welcome extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.nearbyCategories = [
             {
                 name: "Mooring",
                 icon: "anchor",
+                search: "mooring"
             },
             {
                 name: "Shop",
                 icon: "store",
+                search: "supermarket"
             },
             {
                 name: "Cafe",
                 icon: "local_cafe",
+                search: "cafe"
             },
             {
                 name: "Restaurant",
                 icon: "restaurant",
+                search: "restaurant",
             },
         ];
+
+        this.doSearch = this.doSearch.bind(this);
 
     }
     userLocationView() {
@@ -40,9 +46,14 @@ class Welcome extends React.Component {
         )
     }
 
-    renderRecentSearches(){
+    renderRecentSearches() {
         let searches = window.localStorage.getItem("recent-searches");
-        if(searches === null){ return null; }
+        if (searches === null) {
+            return (<Section title="Welcome">
+                <p>Make your first search, give it a try by entering something above</p>
+                <p>Did you know you can also search a What 3 Words address by starting your search with "///"</p>
+            </Section>);
+        }
         searches = JSON.parse(searches);
 
         const items = searches.slice(0).reverse().map((v, i) => (
@@ -57,20 +68,27 @@ class Welcome extends React.Component {
 
     }
 
+    doSearch(item) {
+        this.props.history.push("/search?q=" + item.search + "&nearby=true")
+    }
+
     render() {
         const categories = this.nearbyCategories.map((v, i) => (
-            <button key={"set_category_"+i} className="btn-round-icon nearby-category">
+            <button key={"set_category_" + i} onClick={() => this.doSearch(v)} className="btn-round-icon nearby-category">
                 <i className="material-icons">{v.icon}</i>
                 <span className="label">{v.name}s</span>
             </button>
         ));
         return (
             <div className="screen-area">
-                <Section title="Find Nearby">
-                    <div className="d-flex justify-around py-1">
-                        {categories}
-                    </div>
-                </Section>
+
+                {this.props.map.zoom[0] > 12 ?
+                    <Section title="Find Nearby">
+                        <div className="d-flex justify-around py-1">
+                            {categories}
+                        </div>
+                    </Section>
+                    : null}
                 {this.renderRecentSearches()}
                 {this.userLocationView()}
             </div>
@@ -79,7 +97,8 @@ class Welcome extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    userLocation: state.user.location
+    userLocation: state.user.location,
+    map: state.mapSettings
 });
 
 const mapActionsToProps = (dispatch, props) => {

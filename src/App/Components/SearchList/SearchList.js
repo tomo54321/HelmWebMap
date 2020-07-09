@@ -12,7 +12,7 @@ class SearchList extends React.Component{
         <li key={"search_result_" + i}>
           <a href={"/place/" + v.id} onClick={(e) => {this.props.onResultClick(v);e.preventDefault();}}>
             <span className="name">{v.name}</span>
-            <span className="type">{this.capitalizeFirstLetter(v.category.name.replace("_", " "))}</span>
+            <span className="type">{v.city ?? "Norfolk Broads"} &bull; {this.capitalizeFirstLetter(v.category.name.replace("_", " "))}</span>
           </a>
         </li>
       )

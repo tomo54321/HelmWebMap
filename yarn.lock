@@ -7527,6 +7527,11 @@ osenv@0:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+osrm-text-instructions@^0.14.1-beta.3:
+  version "0.14.1-beta.3"
+  resolved "https://registry.yarnpkg.com/osrm-text-instructions/-/osrm-text-instructions-0.14.1-beta.3.tgz#f01ef8224a2c0e01505f58fe2d2875fac2a910b7"
+  integrity sha512-HHJmm7ZXVF371mSmRybaRH5MSDkGm2GGNnde+WByep8BfAIolNMZ6jIcLoxbrKLcT9eb92XFtSvxaBbEMn4qCQ==
+
 p-defer@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"

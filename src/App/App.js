@@ -18,10 +18,27 @@ import Hazard from './Screens/Hazard/Hazard';
 import MapPois from './Components/MapPois/MapPois';
 import MapHazards from './Components/MapHazards/MapHazards';
 
+import textLogo from '../Images/helmtext.png'
+
 import './Styles/App.scss';
 
 class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      sidebarOpen : false
+    }
+    this.onSidebarClick = this.onSidebarClick.bind(this);
+  }
+  onSidebarClick(e){
+    if(!e.target.classList.contains("sidebar") && this.state.sidebarOpen){
+      return;
+    }
 
+    this.setState(prevState => {
+      return {sidebarOpen : !prevState.sidebarOpen}
+    })
+  }
   render(){
     return(
       <div className="container">
@@ -34,7 +51,14 @@ class App extends React.Component{
           <MapHazards />
         </Map>
 
-        <div className="sidebar">
+        <div 
+        
+        onClick={this.onSidebarClick} 
+
+        className={"sidebar" + (this.state.sidebarOpen ? " open" : "")}>
+
+          <img src={textLogo} alt="Helm" className="logo" />
+
           <SearchBar />
 
           <Switch>
