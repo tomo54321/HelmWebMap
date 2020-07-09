@@ -4,8 +4,6 @@ import Section from '../../Components/Section/Section'
 
 import API from '../../../Configs/Axios';
 
-import './Hazard.css';
-
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {updateAlert} from '../../../Redux/Actions/AlertAction'
@@ -80,36 +78,28 @@ class Hazard extends React.Component{
 
   render(){
     return(
-      <div className="window place-view shadow-map-bottom">
-        {this.state.loading?<Spinner />: <HazardBody data={this.state.hazard} />
-        }
-      </div>
+        this.state.loading?<Spinner />: <HazardBody data={this.state.hazard} />
+        
     )
   }
 
 }
 
 const HazardBody = (props) => (
-  <div className="pb">
-    <span className="title">{props.data.hazard_type.name} Report</span>
-    <span className="type">{props.data.user.username}</span>
+  <div className="screen-area">
+    <span className="title py-1">{props.data.hazard_type.name}</span>
 
-    <Section title="Details">
-      <table>
-        <tbody>
-          <tr>
-            <th>First spotted at</th>
-            <td>{moment.utc(props.data.created_at).local().format("MMMM Do YYYY, h:mm a")}</td>
-          </tr>
-          <tr>
-            <th>Last spotted</th>
-            <td>{moment.utc(props.data.updated_at).local().format("MMMM Do YYYY, h:mm a")}</td>
-          </tr>
-        </tbody>
-      </table>
+    <Section title="Reported By">
+      {props.data.user.username}
+    </Section>
+    <Section title="Reported">
+      {moment.utc(props.data.created_at).local().format("Do MMMM \\a\\t h:mma")}
     </Section>
 
-  { props.data.comment ? <Section title="Comment">{props.data.comment}</Section> : null } 
+    <Section title="Last Update">{moment.utc(props.data.updated_at).local().fromNow()}
+    </Section>
+
+    { props.data.comment ? <Section title="Comment">{props.data.comment}</Section> : <center><small className="muted">No further information was given</small></center> } 
 
   </div>
 );

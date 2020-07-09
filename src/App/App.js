@@ -7,22 +7,38 @@ import {updateUser} from '../Redux/Actions/UserAction'
 import Map from './Components/Map/Map'
 import SearchBar from './Components/SearchBar/SearchBar'
 import Alert from './Components/Alert/Alert'
-import Speedometer from './Components/Speedometer/Speedometer';
 import { Switch, Route } from "react-router-dom";
 
-import SearchResults from './Screens/SearchResults/SearchResults.js'
-import Place from './Screens/Place/Place.js'
-import Directions from './Screens/Directions/Directions.js';
-import Welcome from './Screens/Welcome/Welcome.js';
+import SearchResults from './Screens/SearchResults/SearchResults'
+import Place from './Screens/Place/Place'
+import Directions from './Screens/Directions/Directions';
+import Welcome from './Screens/Welcome/Welcome';
+import Hazard from './Screens/Hazard/Hazard';
 
 import MapPois from './Components/MapPois/MapPois';
 import MapHazards from './Components/MapHazards/MapHazards';
 
-import './App.css';
-import Hazard from './Screens/Hazard/Hazard';
+import textLogo from '../Images/helmtext.png'
+
+import './Styles/App.scss';
 
 class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      sidebarOpen : false
+    }
+    this.onSidebarClick = this.onSidebarClick.bind(this);
+  }
+  onSidebarClick(e){
+    if(!e.target.classList.contains("sidebar") && this.state.sidebarOpen){
+      return;
+    }
 
+    this.setState(prevState => {
+      return {sidebarOpen : !prevState.sidebarOpen}
+    })
+  }
   render(){
     return(
       <div className="container">
@@ -35,10 +51,16 @@ class App extends React.Component{
           <MapHazards />
         </Map>
 
+        <div 
+        
+        onClick={this.onSidebarClick} 
 
-        <Speedometer />
-        <div className="viewer">
+        className={"sidebar" + (this.state.sidebarOpen ? " open" : "")}>
+
+          <img src={textLogo} alt="Helm" className="logo" />
+
           <SearchBar />
+
           <Switch>
             <Route exact path="/">
               <Welcome />
@@ -56,6 +78,8 @@ class App extends React.Component{
               <Directions />
             </Route>
           </Switch>
+
+          
         </div>
 
         <Alert {...this.props.alert} onClose={this.props.onCloseAlert}/>

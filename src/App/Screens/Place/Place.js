@@ -4,8 +4,6 @@ import Section from '../../Components/Section/Section'
 
 import API from '../../../Configs/Axios';
 
-import './Place.css';
-
 import { withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
@@ -29,32 +27,23 @@ class PlaceBody extends React.Component {
     const props = this.props;
     if (props.place.category.name !== "mooring") { return null; }
     return (
-      <Section title="Details">
-        <table className="table">
-          <tbody>
-            <tr>
-              <th>Type</th>
-              <td>{props.place.data.data.type}</td>
-            </tr>
-            <tr>
-              <th>Allowed Mooring</th>
-              <td>{props.place.data.data.how}</td>
-            </tr>
-            <tr>
-              <th>Length</th>
-              <td>{props.place.data.data.length} metres</td>
-            </tr>
-            <tr>
-              <th>Approx # of boats</th>
-              <td>{props.place.data.data.approx}</td>
-            </tr>
-            <tr>
-              <th>Price</th>
-              <td>&pound;{props.place.data.data.price.toFixed(2)}</td>
-            </tr>
-          </tbody>
-        </table>
-      </Section>
+      <div className="mooring-details">
+        <Section title="Type">
+          {props.place.data.data.type}
+        </Section>
+        <Section title="Allowed Moorings">
+          {props.place.data.data.how}
+        </Section>
+        <Section title="Length">
+          {props.place.data.data.length} metres
+        </Section>
+        <Section title="Approx # of Boats">
+          {props.place.data.data.approx}
+        </Section>
+        <Section title="Price for night">
+          &pound;{props.place.data.data.price.toFixed(2)}
+        </Section>
+      </div>
     )
   }
 
@@ -63,16 +52,16 @@ class PlaceBody extends React.Component {
     if (props.place.nearby_moorings === null || props.place.nearby_moorings.length < 1) { return null; }
     const moorings = props.place.nearby_moorings === null ? null : props.place.nearby_moorings.map((v, i) => {
       return (
-        <button className="nearby-mooring-btn" key={i} onClick={() => { props.history.push("/place/" + v.id) }}>
-          <span className="roundedBtn"><i className="material-icons">directions_boat</i></span>
-          <span className="name">{v.name}</span>
-          <span className="dist">{v.distance.toFixed(2)}mi</span>
+        <button className="btn-round-icon nearby-mooring" key={i} onClick={() => { props.history.push("/place/" + v.id) }}>
+          <i className="material-icons">directions_boat</i>
+          <span className="name d-block">{v.name}</span>
+          <span className="dist muted">{v.distance.toFixed(2)}mi</span>
         </button>
       )
     });
     return (
       <Section title="Nearby Moorings">
-        <div className="flex flex-wrap">
+        <div className="d-flex flex-wrap justify-around">
           {moorings}
         </div>
       </Section>
@@ -121,10 +110,10 @@ class PlaceBody extends React.Component {
     const props = this.props;
 
     return (
-      <div className="pb">
+      <div className="place">
         <span className="title">{props.place.name}</span>
         <span className="type">{capitalizeFirstLetter(props.place.category.name).replace("_", " ")}</span>
-        <button type="button" className="btn btn-direction" onClick={() => { props.history.push("/directions?to=" + props.place.latitude + "," + props.place.longitude) }}>Get Directions</button>
+        <button type="button" className="btn btn-direction btn-block" onClick={() => { props.history.push("/directions?to=" + props.place.latitude + "," + props.place.longitude) }}>Get Directions</button>
 
 
         <Section title="Address">
@@ -280,7 +269,7 @@ class Place extends React.Component {
 
   render() {
     return (
-      <div className="window place-view shadow-map-bottom">
+      <div className="place">
         {this.state.loading ? <Spinner /> : <PlaceBody history={this.props.history} place={this.state.place} />
         }
       </div>
