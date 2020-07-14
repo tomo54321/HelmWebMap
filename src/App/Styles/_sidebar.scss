@@ -180,6 +180,7 @@
             top: -80%;
             overflow: auto;
             z-index:20;
+            transition: all .5s cubic-bezier(0.25, 0.1, 0.16, 1.26);
 
             
             &:before{
