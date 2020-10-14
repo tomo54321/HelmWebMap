@@ -56,6 +56,7 @@ class MapPois extends React.Component {
                     type="symbol"
                     layout={poi_markers.layout}
                     sourceId="important_sailing_pois"
+                    minZoom={12}
                     onClick={this.onCorePOIPressed}
                 />
             </>
